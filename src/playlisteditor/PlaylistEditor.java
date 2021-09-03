@@ -5,12 +5,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -23,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.DocumentBuilder;
@@ -33,13 +37,18 @@ import org.w3c.dom.NodeList;
 
 public class PlaylistEditor {
     
-    public static final String PLAYLIST_NAME = "Best of";
+    public static String playListName = "";
     private static ArrayList<Song> songs = new ArrayList();
     private static JFrame window = null;
+    private static Semaphore semaphore = new Semaphore(0);
     
     public static void main(String[] args) throws Exception{
         
         setLookAndFeel();
+        
+        //Get Playlist Name
+        createInsertPlaylistNameWindow();
+        semaphore.acquire();
         
         File cacheFolder = new File("cache");
         if(!cacheFolder.exists())
@@ -57,7 +66,7 @@ public class PlaylistEditor {
         //Read Playlist
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder parser = factory.newDocumentBuilder();
-        Document doc = parser.parse(new File("E:\\Musica\\Playlists\\"+PLAYLIST_NAME+".zpl"));
+        Document doc = parser.parse(new File("E:\\Musica\\Playlists\\"+playListName+".zpl"));
         NodeList playlistSongsElements = doc.getElementsByTagName("media");
         ArrayList<String> playlistSongsFileNames = new ArrayList();
         
@@ -231,6 +240,36 @@ public class PlaylistEditor {
         window.add(scrollPane);
         window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         window.pack();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+    }
+    
+    public static void createInsertPlaylistNameWindow(){
+        JFrame window = new JFrame("Insert Playlist Name");
+        
+        JTextField textField = new JTextField();
+        textField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                if(ke.getKeyChar() == '\n'){
+                    playListName = textField.getText();
+                    semaphore.release();
+                    window.dispose();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+            }
+        });
+        
+        window.add(textField);
+        window.setSize(new Dimension(300, 60));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
         window.setVisible(true);

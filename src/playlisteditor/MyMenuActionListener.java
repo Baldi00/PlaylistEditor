@@ -54,7 +54,7 @@ public class MyMenuActionListener implements ActionListener{
                     Document doc = parser.newDocument();
                     Element seq = doc.createElement("seq");
                     
-                    BufferedWriter destPhone = new BufferedWriter(new FileWriter("C:\\Users\\Andrea\\Desktop\\"+PlaylistEditor.PLAYLIST_NAME+".m3u"));
+                    BufferedWriter destPhone = new BufferedWriter(new FileWriter("C:\\Users\\Andrea\\Desktop\\"+PlaylistEditor.playListName+".m3u"));
                     
                     //SELECT SONGS
                     for(Song s : songs){
@@ -74,7 +74,7 @@ public class MyMenuActionListener implements ActionListener{
                     Element root = doc.createElement("smil");
                     Element head = doc.createElement("head");
                     Element title = doc.createElement("title");
-                    title.setTextContent(PlaylistEditor.PLAYLIST_NAME);
+                    title.setTextContent(PlaylistEditor.playListName);
                     Element body = doc.createElement("body");
 
                     head.appendChild(title);
@@ -86,7 +86,7 @@ public class MyMenuActionListener implements ActionListener{
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
                     Transformer transformer = transformerFactory.newTransformer();
                     DOMSource domSource = new DOMSource(doc);
-                    StreamResult streamResult = new StreamResult(new File("C:\\Users\\Andrea\\Desktop\\"+PlaylistEditor.PLAYLIST_NAME+".zpl"));
+                    StreamResult streamResult = new StreamResult(new File("C:\\Users\\Andrea\\Desktop\\"+PlaylistEditor.playListName+".zpl"));
 
                     transformer.transform(domSource, streamResult);
                 } catch (IOException ex) {
