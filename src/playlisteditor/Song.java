@@ -33,6 +33,7 @@ public class Song {
     private String title;
     private String artist;
     private String album;
+    private long lastModified;
     private boolean selected;
 
     public Song(String filePath, String fileName, String title, String artist, String album, boolean selected) {
@@ -41,6 +42,7 @@ public class Song {
         this.title = title;
         this.artist = artist;
         this.album = album;
+        this.lastModified = new File(filePath).lastModified();
         this.selected = selected;
         
         /*Mp3File mp3file = null;
@@ -113,6 +115,9 @@ public class Song {
     public String getAlbum() {
         return album == null ? "Album Sconosciuto" : album.replace("?", "");
     }
+
+    public long getLastModified() {
+        return lastModified;
     }
 
     public boolean isSelected() {

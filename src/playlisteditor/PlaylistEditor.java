@@ -158,6 +158,10 @@ public class PlaylistEditor {
         songs.sort(new SongArtistComparator());
     }
     
+    public static void sortByLastModified(){
+        songs.sort(new SongLastModifiedComparator());
+    }
+    
     public static void sortBySelected(){
         songs.sort(new SongTitleComparator());
         songs.sort(new SongSelectedComparator());
@@ -168,7 +172,7 @@ public class PlaylistEditor {
         
         JMenuBar menuBar;
         JMenu menu;
-        JMenuItem menuItemSave, menuItemSortTitle, menuItemSortArtist, menuItemSortSelected;
+        JMenuItem menuItemSave, menuItemSortTitle, menuItemSortArtist, menuItemSortLastModified, menuItemSortSelected;
         menuBar = new JMenuBar();
 
         menu = new JMenu("Azioni");
@@ -183,6 +187,9 @@ public class PlaylistEditor {
         menuItemSortArtist = new JMenuItem("Ordina per Artista");
         menuItemSortArtist.setName("SortArtist");
         menuItemSortArtist.addActionListener(new MyMenuActionListener(songs));
+        menuItemSortLastModified = new JMenuItem("Ordina per Ultima Modifica");
+        menuItemSortLastModified.setName("SortLastModified");
+        menuItemSortLastModified.addActionListener(new MyMenuActionListener(songs));
         menuItemSortSelected = new JMenuItem("Ordina per Selezionati");
         menuItemSortSelected.setName("SortSelected");
         menuItemSortSelected.addActionListener(new MyMenuActionListener(songs));
@@ -190,6 +197,7 @@ public class PlaylistEditor {
         menu.add(menuItemSave);
         menu.add(menuItemSortTitle);
         menu.add(menuItemSortArtist);
+        menu.add(menuItemSortLastModified);
         menu.add(menuItemSortSelected);
         
         JPanel containerPanel = new JPanel();

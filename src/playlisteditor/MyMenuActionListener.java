@@ -104,6 +104,9 @@ public class MyMenuActionListener implements ActionListener{
             } else if(mi.getName().equals("SortArtist")){
                 PlaylistEditor.sortByArtist();
                 PlaylistEditor.recreateWindow();
+            } else if(mi.getName().equals("SortLastModified")){
+                PlaylistEditor.sortByLastModified();
+                PlaylistEditor.recreateWindow();
             } else if(mi.getName().equals("SortSelected")){
                 PlaylistEditor.sortBySelected();
                 PlaylistEditor.recreateWindow();
