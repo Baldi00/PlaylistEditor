@@ -100,6 +100,7 @@ public class PlaylistEditor {
                     br.close();
                     songs.add(new Song(songFiles[i].getAbsolutePath(),songFiles[i].getName(),title,artist,album,selected));
                 }else{
+                    System.out.println(songFiles[i]);
                     songs.add(new Song(songFiles[i].getAbsolutePath(),songFiles[i].getName(),selected));
                 }
             }
